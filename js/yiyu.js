@@ -119,7 +119,11 @@ $(function(){
 
 	// 跳到结果页
 	function toResultPage(){
-		hideA_showB("Main","Result");
+		if(records._success>4){
+			hideA_showB("Main","win");
+		}else{
+			hideA_showB("Main","fail")
+		}
 	}
 
 	// 初始化题目页面
@@ -135,6 +139,7 @@ $(function(){
 	}
 
 
+	//点击封面页跳到问答页面
 	//点击封面页跳到问答页面
 	$("#start_btn").click(function(){
 		toMainPage();
@@ -175,4 +180,12 @@ $(function(){
 		}
 		return;
 	});
-})
+
+	//跳转视频页面
+	$("#painted_eggshell_btn").click(function(){
+		hideA_showB("win","Over");
+	});
+	$("#help_btn").click(function(){
+		hideA_showB("fail","Over");
+	});
+});

@@ -5,7 +5,7 @@
 html,body{
 	width:100%;
 	height:100%;
-	font-family: Helvetica;
+	font-family: Microsoft YaHei,Helvetica;
 	font-size: 16px;
 	font-weight: bold;
 	background-color: #ffd546;
@@ -18,7 +18,7 @@ img{
 ol{
 	list-style-type: none;
 }
-#Cover,#Main,#Result,#Over{
+#Cover,#Main,.Result,#Over{
 	width:100%;
 	height:100%;
 	overflow: hidden;
@@ -26,7 +26,7 @@ ol{
 }
 /*封面页*/
 #Cover{
-	/*display: block;*/
+	display: block;
 
 	background: url("../img/cover_bg.png") 0 0 no-repeat;
 	-webkit-background-size: 100% 100%;
@@ -49,7 +49,7 @@ ol{
 .cover-footer{
 	width:100%;
 	padding: 4% 0;
-	font-size: 18px; 
+	font-size: 18px;
 	color:#e4b412;
 	text-align: center;
 
@@ -183,7 +183,7 @@ ol{
 	flex-direction:column;
 	justify-content:center;*/
 	position: relative;
-	background-color: blue;
+	/*background-color: blue;*/
 }
 .option{
 	width:60%;
@@ -192,7 +192,7 @@ ol{
 	background: url("../img/option.png") 0 0 no-repeat;
 	-webkit-background-size:100% 100%;
 	background-size: 100% 100%;
-	background-color: green;
+	/*background-color: green;*/
 	/*display: -webkit-flex;
 	display: flex;
 	justify-content:space-around;
@@ -300,13 +300,117 @@ ol{
 		margin-left: 11%;
 	}
 }
-
-@media screen and (min-width: 340px){
-	/*.question-process{
-		width:320px;
+/*result page*/
+.Result{
+	/*display: block;*/
+	color:#fff;
+	background: url("../img/rect_bg.png") 0 0 no-repeat, url("../img/bg.png") 0 0 no-repeat;
+	-webkit-background-size: 100% 100%;
+	background-size: 100% 100%;
+}
+.score{
+	position: absolute;
+	top: 8%;
+	left: 42.5%;
+	width: 15%;
+	font-family: Impact;
+	font-size: 110px;
+	text-align: center;
+}
+@media only screen and (min-device-width : 320px) and (max-device-width : 568px) {
+	.score{
+		top: 7%;
+		font-size: 100px;
 	}
-	#process_line{
-		width:320px;
-		height:28px;
-	}*/
+}
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation : portrait) {
+/*iPhone 6 Portrait*/
+	.score{
+		top: 8%;
+		font-size: 110px;
+		font-family: Impact;
+	}
+}
+
+.scoreboard{
+	width: 85%;
+	margin-left: 7.5%;
+	margin-top: 10%;
+}
+.result_text{
+	width: 60%;
+	margin-left: 20%;
+	margin-top: 0;
+}
+.result_btn{
+	position: relative;
+	width: 46%;
+	margin-left: 27%;
+	margin-top: 8%;
+	z-index: 9999;
+}
+.result_footer{
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+}
+.result_footer>img{
+	position: relative;
+}
+.persons{
+	width: 45%;
+	margin-left: 27.5%;
+	z-index: 99;
+}
+.stage{
+	width: 75%;
+	margin-left: 12.5%;
+	margin-top: -8%;
+	margin-bottom: 2%;
+	z-index: 9;
+}
+#Over{
+	/*display: block;*/
+}
+#share_title{
+	width: 80%;
+	margin-left: 10%;
+	margin-top: 5%;
+}
+#video_contain{
+	width: 90%;
+	height: 30%;
+	margin-top: 5%;
+	margin-left: 5%;
+	background-color: #c18316;
+	border-radius: 5px;
+	-webkit-border-radius:5px;
+}
+#video_cover{
+	width: 70%;
+	padding-left: 15%;
+	padding-top: 10px;
+}
+#pk_others{
+	width: 100%;
+}
+#pk_title{
+	width: 50%;
+	margin-left: 8%;
+	margin-top: 10%;
+}
+.disease_row{
+	margin-left: 5%;
+	margin-top: 5%;
+	width: 90%;
+}
+.disease_item{
+	display: inline-block;
+	margin-left: 3.5%;
+	width: 20%;
+}
+#invite_btn{
+	width: 50%;
+	margin-top:10%;
+	margin-left:25%;
 }
