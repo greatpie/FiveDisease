@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>抑郁君</title>
+	<link rel="stylesheet" type="text/css" href="css/yiyu.css">
+</head>
+<body>
+	<!-- 封面页 -->
+	<div id="Cover">
+		<img src="img/title.png" alt="PK吧，疾病君！" class="cover-title">
+		<img src="img/yiyujun_big.png" alt="疾病君大图" class="yiyujun-big">
+		<img src="img/start_btn.png" alt="开始测试" id="start_btn">
+		<div class="cover-footer">镝次元出品</div>
+	</div>
+	<!-- 答题页 -->
+	<div id="Main">
+		<img src="img/pk_jibingjun.png" class="pk-text">
+		<div class="blood-vs">
+			<div id="blue_blood_box" class="blood-line-box">
+				<div id="blue_blood" class="blood-line"></div>
+			</div>
+			<div id="red_blood_box" class="blood-line-box">
+				<div id="red_blood" class="blood-line"></div>
+			</div>
+			<span class="jibingjun-span">疾病君</span>
+			<span class="wo-span">我</span>
+			<img src="img/vs_bg.png" class="vs-bg">
+			<img src="img/vs_person.png" class="vs-person">
+		</div>
+		<div class="question-and-options">
+			<div class="question-board">
+				<div id="question"><span class="cur-question">Q1</span>：<span id="question_text">你认为，一年中大概有百分之几的人口患抑郁症？</span></div>
+			</div>
+
+			<ol id="options">
+				<li id="optionA" class="option" data-option="A">
+					<img src="img/A.png" id="imgA" class="option-img">
+					<span class="option-text">1%</span>
+				</li>
+				<li id="optionB" class="option" data-option="B">
+					<img src="img/B.png" id="imgB" class="option-img">
+					<span class="option-text">5%</span>
+				</li>
+				<li id="optionC" class="option" data-option="C">
+					<img src="img/C.png" id="imgC" class="option-img">
+					<span class="option-text">7%</span>
+				</li>
+				<img src="img/yes.png" id="right" class="check">
+				<img src="img/no.png" id="wrong" class="check">
+			</ol>
+		</div>
+		<div class="question-process">
+			<img src="img/process_line.png" class="process-line-base">
+			<div id="process_line_div">
+				<img src="img/process_line_full.png" class="process-line-full">
+			</div>
+			<div class="process-footer">
+				<span id="process_num">
+					<span class="triangle-up"></span>
+					<span id="cur_question" class="cur-question">Q1</span>
+				</span>
+				<img src="img/datijindu.png" class="process-text">
+			</div>
+		</div>
+	</div>
+	<!-- 结果页 -->
+	<div id="Result">
+		3
+	</div>
+	<!-- 结束页 -->
+	<div id="Over">
+		4
+	</div>
+	
+	<script src="js/jquery-1.11.3.min.js"></script>
+	<script src="js/yiyu.js"></script>
+	
+</body>
+</html>
+
+<!-- <script src="js/yiyu-v0.js"></script> -->
