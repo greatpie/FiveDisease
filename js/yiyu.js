@@ -120,8 +120,10 @@ $(function(){
 	// 跳到结果页
 	function toResultPage(){
 		if(records._success>4){
+			$("#win_score").text(records._success);
 			hideA_showB("Main","win");
 		}else{
+			$("#fail_score").text(records._success);
 			hideA_showB("Main","fail")
 		}
 	}
@@ -188,4 +190,42 @@ $(function(){
 	$("#help_btn").click(function(){
 		hideA_showB("fail","Over");
 	});
+
+	//微信分享
+	function wechatShare(){
+			title="你得了"+records._success+"分";
+			desc="你得了"+records._success+"分";
+			wx.onMenuShareTimeline({
+				title: title, // 分享标题
+				desc: desc, // 分享描述
+				link: link, // 分享链接
+				imgUrl: img_url, // 分享图标
+				success: function () {
+					// 用户确认分享后执行的回调函数
+					alert(link);
+				},
+				cancel: function () {
+					// 用户取消分享后执行的回调函数
+				}
+			});
+			wx.onMenuShareAppMessage({
+
+				title: title, // 分享标题
+				desc: desc, // 分享描述
+				link: link, // 分享链接
+				imgUrl: img_url, // 分享图标
+				success: function () {
+					// 用户确认分享后执行的回调函数
+				},
+				cancel: function () {
+					// 用户取消分享后执行的回调函数
+				}
+			});
+
+			wx.hideAllNonBaseMenuItem();
+			wx.showMenuItems({
+				menuList: ['menuItem:share:appMessage','menuItem:share:timeline'] // 要显示的菜单项，所有menu项见附录3
+			});
+
+	}
 });
