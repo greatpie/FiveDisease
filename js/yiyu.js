@@ -1,7 +1,7 @@
 // 题目内容
 var data = [{
 	"Q":"您猜，在中国患抑郁症的人占比大概为？",
-	"options":{"A":"1%","B":"5%","C":"7%"},
+	"options":{"A":"1%","B":"5%","C":"10%"},
 	"answer":"B"
 },{
 	"Q":"女性比男性更容易患抑郁症？",
@@ -36,13 +36,17 @@ var records = {
 	_success : 0,	//答对题数
 	_failure : 0,	//答错题数
 	_selected : false,	//是否已做出选择（点击）
+	_hasC: true,		//是否有选项C
+	_prevHasC : false	//前一题是否有选项C
 };
 
 
 $(function(){
+
+
 	//用js调整部分样式问题
-	$("#process_line_div").css("margin-left",$(".process-line-base").css("margin-left"));
-	$(".process-footer").width($(".process-line-base").width());
+	// $("#process_line_div").css("margin-left",$(".process-line-base").css("margin-left"));
+	// $(".process-footer").width($(".process-line-base").width());
 
 	//隐藏id为id_a的元素，显示id为id_b的元素，此处主要用于页面跳转
 	function hideA_showB(id_a,id_b){
@@ -59,23 +63,56 @@ $(function(){
 		$(".cur-question").text("Q"+curNum);
 		$("#question_text").text(cur.Q);
 		if(cur.options.C){
-			$("#optionC").show();
+			records._hasC = true;
+			$("#optionC").parent().show();
 			$("#optionC").find(".option-text").text(cur.options.C);
 		}
 		else{
-			$("#optionC").hide();
+			records._hasC = false;
+			$("#optionC").parent().hide();
 		}
 		$("#optionA").find(".option-text").text(cur.options.A);
 		$("#optionB").find(".option-text").text(cur.options.B);
+
+		adjust_options_style();
+
+		records._prevHasC = records._hasC;
 	};
+
+	// 调整选项部分的样式
+	function adjust_options_style(){
+		if(records._prevHasC === records._hasC){
+			return;
+		}
+		var H = $("#options").height();
+		var h = get_h();
+		$("#option_boxA").css("padding-top",(H-h)/2+"px");
+
+
+		function get_h(){
+			var optionBoxes = $(".option-box");
+			var sum = 0;
+
+			var length = optionBoxes.length;
+			if(!records._hasC){
+				length -= 1;
+			}
+			$("#option_boxA").css("padding-top",0);
+
+			for(var i=0;i<length;i++){
+				sum += $(optionBoxes[i]).outerHeight(true);
+			}
+			return sum;
+		};	
+	}
 
 	// 根据题号调整进度条
 	function adjust_process(curNum){
-		var points = [12,23.5,35,46.5,58,69.5,81,100];
-		var w = $(".process-line-base").width();
-		var percentage = points[curNum-1]/100;
-		$("#process_line_div").animate({width:w*percentage+"px"},"slow")
-		$("#process_num").animate({marginLeft:w*(percentage-.035)+"px"},"slow")
+		// var points = [12,23.5,35,46.5,58,69.5,81,100];
+		var w = $(".process-line-box").width();
+		var percentage = curNum/records._TOTAL;
+		$("#process_line").animate({width:w*percentage+"px"},"500")
+		$("#process_num").animate({marginLeft:w*(percentage-.035)+"px"},"500")
 	}
 	
 	// 进入下一题，更新内容与进度条
@@ -85,11 +122,16 @@ $(function(){
 		if(records._curNum > 7){
 			return;
 		}
-		$(".check").hide();
-		$(".option").css("background-image","url(img/option.png)");
-
-		draw_question(records._curNum);
-		adjust_process(records._curNum);
+		setTimeout(function(){
+			$(".check").hide();
+			$(".option").css("background-image","url(img/option.png)");
+			adjust_process(records._curNum);
+			setTimeout(function(){
+				draw_question(records._curNum);
+			},600)
+		},500)
+		// draw_question(records._curNum);
+		
 	};
 
 	// 更新血条
@@ -119,13 +161,14 @@ $(function(){
 
 	// 跳到结果页
 	function toResultPage(){
-		if(records._success>4){
+		if(records._success > records._failure){
 			$("#win_score").text(records._success);
 			hideA_showB("Main","win");
 		}else{
 			$("#fail_score").text(records._success);
-			hideA_showB("Main","fail")
+			hideA_showB("Main","fail");
 		}
+		
 	}
 
 	// 初始化题目页面
@@ -142,7 +185,6 @@ $(function(){
 
 
 	//点击封面页跳到问答页面
-	//点击封面页跳到问答页面
 	$("#start_btn").click(function(){
 		toMainPage();
 	});
@@ -152,14 +194,18 @@ $(function(){
 		if(records._curNum > 7){
 			return;
 		}
+		var elem = $(this);
 		if(!records._selected){
-			$(this).css("background-image","url(img/selected.png)");
-			if($(this).data("option") === data[records._curNum-1].answer){
+			records._selected = true;
+			elem.css("background-image","url(img/selected.png)");
+			if(elem.data("option") === data[records._curNum-1].answer){
 				records._success++;
 				$("#wrong").hide();
-				$("#right").css("top",$(this).position().top*1.075+parseFloat($(this).css("margin-top"))+"px");
-				if(true){	//微调点击第一个选项时图案的位置问题
-
+				if(elem.data("option") === "A"){	//微调点击第一个选项时图案的位置问题
+					$("#right").css("top",elem.position().top*1.075+5+"px");
+				}
+				else{
+					$("#right").css("top",elem.position().top*1.075+"px");
 				}
 				$("#right").show();
 				update_blue_blood();
@@ -173,15 +219,26 @@ $(function(){
 					}
 				}
 				$(".check").show();
-				$("#right").css("top",right.position().top*1.075+parseFloat(right.css("margin-top"))+"px");
-				$("#wrong").css("top",$(this).position().top*1.075+parseFloat($(this).css("margin-top"))+"px");
+				if(right.data("option") === "A"){	//微调点击第一个选项时图案的位置问题
+					$("#right").css("top",right.position().top*1.075+5+"px");
+					$("#wrong").css("top",elem.position().top*1.075+"px");
+				}
+				else if(elem.data("option") === "A"){
+					$("#wrong").css("top",elem.position().top*1.075+5+"px");
+					$("#right").css("top",right.position().top*1.075+"px");
+				}
+				else{
+					$("#right").css("top",right.position().top*1.075+"px");
+					$("#wrong").css("top",elem.position().top*1.075+"px");
+				}
 				update_red_blood();
 			};
-			records._selected = true;
 			return;
 		}
 		return;
 	});
+
+
 
 	//跳转视频页面
 	$("#painted_eggshell_btn").click(function(){
@@ -191,41 +248,12 @@ $(function(){
 		hideA_showB("fail","Over");
 	});
 
-	//微信分享
-	function wechatShare(){
-			title="你得了"+records._success+"分";
-			desc="你得了"+records._success+"分";
-			wx.onMenuShareTimeline({
-				title: title, // 分享标题
-				desc: desc, // 分享描述
-				link: link, // 分享链接
-				imgUrl: img_url, // 分享图标
-				success: function () {
-					// 用户确认分享后执行的回调函数
-					alert(link);
-				},
-				cancel: function () {
-					// 用户取消分享后执行的回调函数
-				}
-			});
-			wx.onMenuShareAppMessage({
 
-				title: title, // 分享标题
-				desc: desc, // 分享描述
-				link: link, // 分享链接
-				imgUrl: img_url, // 分享图标
-				success: function () {
-					// 用户确认分享后执行的回调函数
-				},
-				cancel: function () {
-					// 用户取消分享后执行的回调函数
-				}
-			});
 
-			wx.hideAllNonBaseMenuItem();
-			wx.showMenuItems({
-				menuList: ['menuItem:share:appMessage','menuItem:share:timeline'] // 要显示的菜单项，所有menu项见附录3
-			});
-
-	}
-});
+	// 点击查看视频
+	$("#video_btn").click(function(){
+		$("#video").show();
+		var video = document.getElementById("video");
+		video.play();
+	})
+})
